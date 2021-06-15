@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 		names.push_back(name);
 	}**/
 
-	std::vector<std::string> names {"Bitcoin","Ethereum","Ripple","Litecoin","Monero","Zcash"};
+	std::vector<std::string> names {"bitcoin","ethereum","ripple","litecoin","monero","zcash"};
 	// sembollerden name'i alicaz
 	QApplication a(argc, argv); 
    	mytable my(0, names);
