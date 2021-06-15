@@ -17,9 +17,10 @@ int main(int argc, char *argv[]) {
 		names.push_back(name);
 	}**/
 
-	
+	std::vector<std::string> names {"Bitcoin","Ethereum","Ripple","Litecoin","Monero","Zcash"};
+	// sembollerden name'i alicaz
 	QApplication a(argc, argv); 
-   	mytable my; 
+   	mytable my(0, names);
 
    	my.show(); 
 
