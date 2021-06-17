@@ -6,17 +6,26 @@
 #include <QTableWidgetItem>
 #include <QDebug>
 #include <QTextStream>
+#include<fstream>
+using namespace std;
 
-mytable::mytable(QWidget *parent, std::vector<std::string> names) : QTableWidget(parent)
+mytable::mytable(QWidget *parent, ifstream* in ) : QTableWidget(parent)
 {
-	this->names = names;
+	this->names={};
      table = new QTableWidget();
      QHBoxLayout *layout = new QHBoxLayout;
 
      layout->addWidget(table);
      setLayout(layout);
 
-     manager = new QNetworkAccessManager(this) ; 
+    string url0 = "https://api.coingecko.com/api/v3/coins/list";
+
+    read = new MyDataReader(url0, *in);
+
+    connect(read, &MyDataReader::done, this, &mytable::dothings);
+    //bool success = connect(read, SIGNAL(done(vector<string>*)), this, SLOT(dothings(vector<string>*)));
+    //Q_ASSERT(success);
+     /*manager = new QNetworkAccessManager(this) ; 
 
      connect(manager, SIGNAL(finished(QNetworkReply *)),this, SLOT(replyFinished(QNetworkReply *)));
 
@@ -27,9 +36,29 @@ mytable::mytable(QWidget *parent, std::vector<std::string> names) : QTableWidget
      url += "&vs_currencies=usd,eur,gbp";
 
      QString qurl = QString::fromStdString(url);
-     manager->get(QNetworkRequest(QUrl(qurl)));
+     manager->get(QNetworkRequest(QUrl(qurl)));*/
 }
 
+void mytable::dothings(vector<string>* ids) {
+    cout << "Im gonna do this rn" << endl;
+    this->names = *ids;
+    for(auto a: this->names){
+            cout << a << endl;
+        }
+    manager = new QNetworkAccessManager(this) ; 
+
+    connect(manager, SIGNAL(finished(QNetworkReply *)),this, SLOT(replyFinished(QNetworkReply *)));
+
+    std::string url = "https://api.coingecko.com/api/v3/simple/price?ids=" + this->names[0];
+     for(unsigned int i = 1; i<this->names.size(); i++){
+        url += "," + this->names[i];
+     }
+     url += "&vs_currencies=usd,eur,gbp";
+
+     QString qurl = QString::fromStdString(url);
+     manager->get(QNetworkRequest(QUrl(qurl)));
+
+}
 
 void mytable::replyFinished(QNetworkReply *reply)  {
 
