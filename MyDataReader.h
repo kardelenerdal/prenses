@@ -11,7 +11,9 @@ class MyDataReader : public QObject
     Q_OBJECT
 
     public:
+      // constructor for data reader.
       MyDataReader(string url, ifstream& in);
+      // the file that program reads.
       ifstream* in;
 	 
 	signals:
