@@ -72,7 +72,7 @@ void mytable::replyFinished(QNetworkReply *reply)  {
 		QString usd, eur, gbp; 
     	int pos = 0;
     	
-    	std::string pat = "\"" + this->names[i] + "\":\\{\"usd\":(\\d+\\.?\\d+),\"eur\":(\\d+\\.?\\d+),\"gbp\":(\\d+\\.?\\d+)";
+    	std::string pat = "\"" + this->names[i] + "\":\\{\"usd\":(\\d+\\.?\\d*e?\\-?\\d+),\"eur\":(\\d+\\.?\\d*e?\\-?\\d+),\"gbp\":(\\d+\\.?\\d*e?\\-?\\d+)";
     	QString pattern = QString::fromStdString(pat);
      	QRegExp rx(pattern);
 
